@@ -18,20 +18,25 @@ public class BuyStepdefs {
         order = new Order();
     }
 
-    @Given("a product {string} with price {float} exists")
-    public void a_product_with_price_exists(String name, double price) {
-        catalog.addProduct(name, price);
+    @Given("สินค้า {string} with price {float} have {int} exists")
+    public void a_product_with_price_exists(String name, double price , int quantity) {
+        catalog.addProduct(name, price ,quantity );
+
     }
 
     @When("I buy {string} with quantity {int}")
     public void i_buy_with_quantity(String name, int quantity) {
         Product prod = catalog.getProduct(name);
-        order.addItem(prod, quantity);
+        if (catalog.checkStock(name)){
+            order.addItem(prod, quantity);
+            prod.setQuantity(prod.getQuantity() - quantity);
+        }
     }
+
+
 
     @Then("total should be {float}")
     public void total_should_be(double total) {
         assertEquals(total, order.getTotal());
     }
 }
-

@@ -34,4 +34,6 @@ public class Product {
             throw new IllegalArgumentException("Quantity must be positive");
         this.quantity = quantity;
     }
+
+
 }
